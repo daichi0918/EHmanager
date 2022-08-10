@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # root "articles#index"
   namespace :api do
     namespace :v1 do
-      resources :users
-      resources :lists, only: %i[index create destroy]
+      resources :users do
+        resources :lists, only: %i[index create destroy]
+      end
     end
   end
 end

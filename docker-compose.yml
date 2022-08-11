@@ -35,6 +35,9 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/usr/src/app
+    environment:
+      #     Fixes bug where websocket connection is fixed to default port 3000
+      - WDS_SOCKET_PORT=0
     command: sh -c "cd app && npm start"
     ports:
       - "4000:3000"

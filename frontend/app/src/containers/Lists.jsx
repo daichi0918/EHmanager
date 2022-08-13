@@ -7,6 +7,8 @@ import {
   listsReducer,
 } from '../reducers/lists';
 
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import FormDialog from '../components/ListAddDialog';
 
 // apis
@@ -47,7 +49,7 @@ export const Lists = ({
           listsState.buyList.map(list =>
             <div key={list.id}>
               {list.name}
-              <svg data-testid="DeleteIcon"></svg>
+              <DeleteIcon />
             </div>
           )
       }

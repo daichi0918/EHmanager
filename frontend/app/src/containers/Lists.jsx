@@ -1,10 +1,13 @@
 import React, { Fragment, useEffect, useReducer } from 'react';
 
+
 import {
   initialState as listsInitialState,
   listsActionTyps,
   listsReducer,
 } from '../reducers/lists';
+
+import FormDialog from '../components/ListAddDialog';
 
 // apis
 import { fetchLists } from '../apis/lists';
@@ -44,9 +47,11 @@ export const Lists = ({
           listsState.buyList.map(list =>
             <div key={list.id}>
               {list.name}
+              <svg data-testid="DeleteIcon"></svg>
             </div>
           )
       }
+      <FormDialog />
     </Fragment>
   )
 }

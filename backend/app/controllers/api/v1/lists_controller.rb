@@ -1,7 +1,7 @@
 module Api
   module V1
     class ListsController < ApplicationController
-      before_action :set_list,only: %i[create destroy]
+      before_action :set_list,only: %i[destroy]
 
       def index
         user = User.find(params[:user_id])
@@ -13,7 +13,12 @@ module Api
       end
 
       def create
-
+        list = List.new(list_params)
+        if list.save
+          render json: { status: 'SUCCESS', data: list }
+        else
+          render json: { status: 'ERROR', data: list.errors }
+        end
       end
 
       def destroy
@@ -27,6 +32,10 @@ module Api
         # user = User.find(params[:user_id])
         # List = user.lists
         @list = List.find(params[:id])
+      end
+
+      def list_params
+        params.permit(:name).merge(user_id:params[:user_id])
       end
 
     end

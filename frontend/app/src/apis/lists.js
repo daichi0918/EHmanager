@@ -1,5 +1,7 @@
+import { useCallback } from 'react'
 import axios from 'axios';
 import { listsIndex } from '../urls/index'
+import { listCreate } from '../urls/index'
 import { listDestroy } from '../urls/index'
 
 export const fetchLists = (userId) => {
@@ -10,10 +12,21 @@ export const fetchLists = (userId) => {
     .catch((e) => console.error(e))
 }
 
+export const createList = (userId, text) => {
+  return axios.post(listCreate(userId), {
+    name: text
+  }).then(() => {
+    console.log("登録できました")
+  })
+    .catch((e) => console.error(e))
+}
+
 export const destroyList = (userId, id) => {
   return axios.delete(listDestroy(userId, id))
     .then(() => {
       console.log("削除ID:", id)
+      // window.location.reload()
+      // fetchLists(userId)
     })
     .catch((e) => console.error(e))
 }

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { React, memo, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,9 +9,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import { createList } from '../apis/lists';
 
-export default function FormDialog() {
-  const [open, setOpen] = React.useState(false);
+export const FormDialog = memo((props) => {
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,6 +22,8 @@ export default function FormDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log(props)
 
   return (
     <div>
@@ -37,13 +41,15 @@ export default function FormDialog() {
             type="string"
             fullWidth
             variant="standard"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>登録</Button>
+          <Button onClick={createList(props.user_id, text)}>登録</Button>
         </DialogActions>
       </Dialog>
     </div>
   );
-}
+})

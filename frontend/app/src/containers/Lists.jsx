@@ -1,5 +1,10 @@
-import React, { Fragment, useEffect, useReducer } from 'react';
+import { React, Fragment, useEffect, useReducer, useState, memo } from 'react';
 
+import {
+  useParams,
+  useHistory,
+  useLocation,
+} from 'react-router-dom';
 
 import {
   initialState as listsInitialState,
@@ -9,15 +14,15 @@ import {
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import FormDialog from '../components/ListAddDialog';
+import { FormDialog } from '../components/ListAddDialog';
 
 // apis
-import { fetchLists } from '../apis/lists';
+import { fetchLists, destroyList } from '../apis/lists';
 
 // constants
 import { REQUEST_STATE } from '../constants';
 
-export const Lists = ({
+export const Lists = memo(({
   match
 }) => {
 
@@ -36,6 +41,14 @@ export const Lists = ({
       })
   }, [])
 
+  const url = useLocation();
+
+  const path = url.pathname
+
+  const path_array = path.match(/\/users\/(.*)\/lists/);
+
+  const user_id = path_array[1]
+
   return (
     <Fragment>
       {
@@ -47,13 +60,13 @@ export const Lists = ({
           </Fragment>
           :
           listsState.buyList.map(list =>
-            <div key={list.id}>
+            < div key={list.id}>
               {list.name}
-              <DeleteIcon />
+              < DeleteIcon onClick={() => destroyList(list.user_id, list.id)} />
             </div>
           )
       }
-      <FormDialog />
-    </Fragment>
+      <FormDialog user_id={user_id} />
+    </Fragment >
   )
-}
+})

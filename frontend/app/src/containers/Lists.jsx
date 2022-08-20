@@ -41,13 +41,7 @@ export const Lists = memo(({
       })
   }, [])
 
-  const url = useLocation();
-
-  const path = url.pathname
-
-  const path_array = path.match(/\/users\/(.*)\/lists/);
-
-  const user_id = path_array[1]
+  const { usersId } = useParams();
 
   return (
     <Fragment>
@@ -66,7 +60,7 @@ export const Lists = memo(({
             </div>
           )
       }
-      <FormDialog user_id={user_id} />
+      <FormDialog user_id={usersId} />
     </Fragment >
   )
 })

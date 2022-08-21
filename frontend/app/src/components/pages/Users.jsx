@@ -1,4 +1,4 @@
-import React, { Fragment, useReducer, useEffect } from 'react';
+import React, { Fragment, useReducer, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 
 import { Link } from "react-router-dom";
@@ -15,6 +15,7 @@ import {
   usersReducer,
 } from '../../reducers/users';
 import { HeaderOnly } from '../templates/HeaderOnly';
+import { UserContext } from '../../providers/UserProvider';
 
 // constants
 // import { REQUEST_STATE } from '../constants';
@@ -61,6 +62,8 @@ const Waku = styled.div`
 
 export const Users = () => {
   const [state, dispatch] = useReducer(usersReducer, initialState);
+  const context = useContext(UserContext);
+  console.log(context)
 
   useEffect(() => {
     dispatch({ type: usersActionTyps.FETCHING });

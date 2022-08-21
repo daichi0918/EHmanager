@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
-import { createList } from '../apis/lists';
+import { createList } from '../../../apis/lists';
 
 export const FormDialog = memo((props) => {
   const [open, setOpen] = useState(false);

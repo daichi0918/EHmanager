@@ -10,17 +10,19 @@ import {
   initialState as listsInitialState,
   listsActionTyps,
   listsReducer,
-} from '../reducers/lists';
+} from '../../reducers/lists';
 
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { FormDialog } from '../components/ListAddDialog';
+import { FormDialog } from '../organisms/list/ListAddDialog';
 
 // apis
-import { fetchLists, destroyList } from '../apis/lists';
+import { fetchLists, destroyList } from '../../apis/lists';
 
 // constants
-import { REQUEST_STATE } from '../constants';
+import { REQUEST_STATE } from '../../constants';
+import { HeaderOnly } from '../templates/HeaderOnly';
+import { DefaultLayout } from '../templates/DefaultLayout';
 
 export const Lists = memo(({
   match
@@ -44,7 +46,7 @@ export const Lists = memo(({
   const { usersId } = useParams();
 
   return (
-    <Fragment>
+    <DefaultLayout>
       {
         listsState.fetchState === REQUEST_STATE.LOADING ?
           <Fragment>
@@ -54,13 +56,13 @@ export const Lists = memo(({
           </Fragment>
           :
           listsState.buyList.map(list =>
-            < div key={list.id}>
+            <div key={list.id}>
               {list.name}
               < DeleteIcon onClick={() => destroyList(list.user_id, list.id)} />
             </div>
           )
       }
       <FormDialog user_id={usersId} />
-    </Fragment >
+    </DefaultLayout>
   )
 })

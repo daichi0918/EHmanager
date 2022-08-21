@@ -7,13 +7,14 @@ import { Link } from "react-router-dom";
 // import Skeleton from '@material-ui/lab/Skeleton';
 
 // apis
-import { fetchUsers } from '../apis/users';
+import { fetchUsers } from '../../apis/users';
 
 import {
   initialState,
   usersActionTyps,
   usersReducer,
-} from '../reducers/users';
+} from '../../reducers/users';
+import { HeaderOnly } from '../templates/HeaderOnly';
 
 // constants
 // import { REQUEST_STATE } from '../constants';

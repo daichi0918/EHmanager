@@ -29,6 +29,7 @@ export const Lists = memo(({
 }) => {
 
   const [listsState, dispatch] = useReducer(listsReducer, listsInitialState);
+  const [trigger, setTrigger] = useState(false);
 
   useEffect(() => {
     dispatch({ type: listsActionTyps.FETCHING });
@@ -41,7 +42,7 @@ export const Lists = memo(({
           }
         });
       })
-  }, [])
+  }, [trigger])
 
   const { usersId } = useParams();
 
@@ -58,11 +59,11 @@ export const Lists = memo(({
           listsState.buyList.map(list =>
             <div key={list.id}>
               {list.name}
-              < DeleteIcon onClick={() => destroyList(list.user_id, list.id)} />
+              < DeleteIcon onClick={() => destroyList(list.user_id, list.id, setTrigger)} />
             </div>
           )
       }
-      <FormDialog user_id={usersId} />
+      <FormDialog user_id={usersId} trigger={trigger} setTrigger={setTrigger} />
     </DefaultLayout>
   )
 })

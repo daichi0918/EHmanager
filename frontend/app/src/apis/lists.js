@@ -12,18 +12,20 @@ export const fetchLists = (userId) => {
     .catch((e) => console.error(e))
 }
 
-export const createList = (userId, text) => {
+export const createList = (userId, text, setTrigger) => {
   return axios.post(listCreate(userId), {
     name: text
   }).then(() => {
+    setTrigger((prev) => { return !prev })
     console.log("登録できました")
   })
     .catch((e) => console.error(e))
 }
 
-export const destroyList = (userId, id) => {
+export const destroyList = (userId, id, setTrigger) => {
   return axios.delete(listDestroy(userId, id))
     .then(() => {
+      setTrigger((prev) => { return !prev })
       console.log("削除ID:", id)
       // window.location.reload()
       // fetchLists(userId)

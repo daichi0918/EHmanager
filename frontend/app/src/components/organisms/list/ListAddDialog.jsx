@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { createList } from '../../../apis/lists';
 
 export const FormDialog = memo((props) => {
+  const { user_id, trigger, setTrigger } = props;
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
 
@@ -47,7 +48,7 @@ export const FormDialog = memo((props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={createList(props.user_id, text)}>登録</Button>
+          <Button onClick={() => { createList(props.user_id, text, setTrigger) }}>登録</Button>
         </DialogActions>
       </Dialog>
     </div>

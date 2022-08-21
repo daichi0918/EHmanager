@@ -63,7 +63,7 @@ export const Lists = memo(({
             </div>
           )
       }
-      <FormDialog user_id={usersId} trigger={trigger} setTrigger={setTrigger} />
+      <FormDialog user_id={usersId} setTrigger={setTrigger} />
     </DefaultLayout>
   )
 })

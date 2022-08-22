@@ -1,4 +1,10 @@
 import { React, Fragment, useEffect, useReducer, useState, memo } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import {
   useParams,
@@ -30,6 +36,15 @@ export const Lists = memo(({
 
   const [listsState, dispatch] = useReducer(listsReducer, listsInitialState);
   const [trigger, setTrigger] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+
+  const handleClickOpen = () => {
+    setConfirm(true);
+  };
+
+  const handleClose = () => {
+    setConfirm(false);
+  };
 
   useEffect(() => {
     dispatch({ type: listsActionTyps.FETCHING });
@@ -59,7 +74,28 @@ export const Lists = memo(({
           listsState.buyList.map(list =>
             <div key={list.id}>
               {list.name}
-              < DeleteIcon onClick={() => destroyList(list.user_id, list.id, setTrigger)} />
+              <DeleteIcon onClick={handleClickOpen} />
+              <Dialog
+                open={confirm}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {"確認"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    削除してよろしいですか？
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>キャンセル</Button>
+                  <Button onClick={() => destroyList(list.user_id, list.id, setTrigger, setConfirm)} autoFocus>
+                    OK
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </div>
           )
       }

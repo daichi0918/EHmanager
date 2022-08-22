@@ -1,10 +1,13 @@
 import { React, Fragment, useEffect, useReducer, useState, memo } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/Comment';
+
 
 import {
   useParams,
@@ -27,8 +30,8 @@ import { fetchLists, destroyList } from '../../apis/lists';
 
 // constants
 import { REQUEST_STATE } from '../../constants';
-import { HeaderOnly } from '../templates/HeaderOnly';
 import { DefaultLayout } from '../templates/DefaultLayout';
+import { ListConfirmDialog } from '../organisms/list/ListConfirmDialog';
 
 export const Lists = memo(({
   match
@@ -37,13 +40,8 @@ export const Lists = memo(({
   const [listsState, dispatch] = useReducer(listsReducer, listsInitialState);
   const [trigger, setTrigger] = useState(false);
   const [confirm, setConfirm] = useState(false);
-
   const handleClickOpen = () => {
     setConfirm(true);
-  };
-
-  const handleClose = () => {
-    setConfirm(false);
   };
 
   useEffect(() => {
@@ -75,27 +73,7 @@ export const Lists = memo(({
             <div key={list.id}>
               {list.name}
               <DeleteIcon onClick={handleClickOpen} />
-              <Dialog
-                open={confirm}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"確認"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    削除してよろしいですか？
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>キャンセル</Button>
-                  <Button onClick={() => destroyList(list.user_id, list.id, setTrigger, setConfirm)} autoFocus>
-                    OK
-                  </Button>
-                </DialogActions>
-              </Dialog>
+              <ListConfirmDialog id={list.id} user_id={list.user_id} setTrigger={setTrigger} open={confirm} setConfirm={setConfirm} />
             </div>
           )
       }

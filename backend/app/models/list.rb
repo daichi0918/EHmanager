@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 class List < ApplicationRecord
   belongs_to :user, optional: true
-  
-  validates :name, presence: true, length: { maximum: 30 }
 
+  validates :name, presence: true, length: { maximum: 30 }
 end

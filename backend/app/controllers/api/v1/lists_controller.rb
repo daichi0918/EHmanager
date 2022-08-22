@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ListsController < ApplicationController
-      before_action :set_list,only: %i[destroy]
+      before_action :set_list, only: %i[destroy]
 
       def index
         user = User.find(params[:user_id])
@@ -23,7 +25,7 @@ module Api
 
       def destroy
         @list.destroy
-        render json: { status: 'SUCCESS', message: 'Deleted the list', data: @list } 
+        render json: { status: 'SUCCESS', message: 'Deleted the list', data: @list }
       end
 
       private
@@ -35,9 +37,8 @@ module Api
       end
 
       def list_params
-        params.permit(:name).merge(user_id:params[:user_id])
+        params.permit(:name).merge(user_id: params[:user_id])
       end
-
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 5.times do |n|
   user = User.new(
     name: "User_#{n}",

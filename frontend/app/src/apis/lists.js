@@ -12,23 +12,22 @@ export const fetchLists = (userId) => {
     .catch((e) => console.error(e))
 }
 
-export const createList = (userId, text, setTrigger) => {
+export const createList = (userId, text, setTrigger, setOpen) => {
   return axios.post(listCreate(userId), {
     name: text
   }).then(() => {
-    setTrigger((prev) => { return !prev })
+    setOpen(false);
+    setTrigger((prev) => { return !prev });
     console.log("登録できました")
   })
     .catch((e) => console.error(e))
 }
 
-export const destroyList = (userId, id, setTrigger) => {
+export const destroyList = (userId, id, setTrigger, setConfirm) => {
   return axios.delete(listDestroy(userId, id))
     .then(() => {
-      setTrigger((prev) => { return !prev })
-      console.log("削除ID:", id)
-      // window.location.reload()
-      // fetchLists(userId)
+      setConfirm(false);
+      setTrigger((prev) => { return !prev });
     })
     .catch((e) => console.error(e))
 }

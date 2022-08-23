@@ -1,4 +1,16 @@
 import { React, Fragment, useEffect, useReducer, useState, memo } from 'react';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import CommentIcon from '@mui/icons-material/Comment';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+
 
 import {
   useParams,
@@ -21,8 +33,12 @@ import { fetchLists, destroyList } from '../../apis/lists';
 
 // constants
 import { REQUEST_STATE } from '../../constants';
-import { HeaderOnly } from '../templates/HeaderOnly';
 import { DefaultLayout } from '../templates/DefaultLayout';
+import { ListConfirmDialog } from '../organisms/list/ListConfirmDialog';
+
+const Demo = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+}));
 
 export const Lists = memo(({
   match
@@ -30,6 +46,11 @@ export const Lists = memo(({
 
   const [listsState, dispatch] = useReducer(listsReducer, listsInitialState);
   const [trigger, setTrigger] = useState(false);
+  const [confirm, setConfirm] = useState(false);
+  const handleClickOpen = () => {
+    setConfirm(true);
+  };
+
 
   useEffect(() => {
     dispatch({ type: listsActionTyps.FETCHING });
@@ -48,22 +69,68 @@ export const Lists = memo(({
 
   return (
     <DefaultLayout>
+      <Typography variant="h5" component="div">
+        買い物リスト
+      </Typography>
+      <br />
+
       {
-        listsState.fetchState === REQUEST_STATE.LOADING ?
-          <Fragment>
-            <p>
-              ロード中...
-                  </p>
-          </Fragment>
-          :
-          listsState.buyList.map(list =>
-            <div key={list.id}>
-              {list.name}
-              < DeleteIcon onClick={() => destroyList(list.user_id, list.id, setTrigger)} />
-            </div>
+        // listsState.fetchState === REQUEST_STATE.LOADING ?
+        //   <Fragment>
+        //     <p>
+        //       ロード中...
+        //           </p>
+        //   </Fragment>
+        //   :
+        listsState.buyList.map((list) => {
+          const labelId = `checkbox-list-label-${list.id}`;
+          return (
+            <Grid container alignItems="center" justify="center">
+              <Grid item xs={8}>
+                <SList sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                  <ListItem
+                    key={list.id}
+                    secondaryAction={
+                      <>
+                        <IconButton>
+                          <SDeleteIcon onClick={handleClickOpen} />
+                        </IconButton>
+                        <ListConfirmDialog id={list.id} user_id={list.user_id} setTrigger={setTrigger} open={confirm} setConfirm={setConfirm} />
+                      </>
+                    }
+                    disablePadding
+                  >
+                    <ListItemButton role={undefined} dense>
+                      {/* <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={checked.indexOf(list.id) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  </ListItemIcon> */}
+                      <ListItemText id={labelId} primary={list.name} />
+                    </ListItemButton>
+                  </ListItem>
+                </SList>
+              </Grid>
+            </Grid>
           )
+        }
+        )
       }
       <FormDialog user_id={usersId} setTrigger={setTrigger} />
-    </DefaultLayout>
+    </DefaultLayout >
   )
 })
+
+const SList = styled(List)`
+  border: 0.5px solid #e7e7e7;
+`
+
+const SDeleteIcon = styled(DeleteIcon)`
+  &:hover {
+    cursor: pointer;
+  }
+`
